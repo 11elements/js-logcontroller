@@ -1,11 +1,19 @@
 // Node Internal Module
 const { join } = require('path');
 const fs = require('fs');
+const _fileName = new WeakMap();
+const _errorFile = new WeakMap();
+const _infoFile = new WeakMap();
 class LogController {
+    /**
+        * Log system related information on the ./logs route.
+        * @func error Write to the Error.md file
+        * @func info Write to the Info.md file
+    */
     constructor() {
-        LogController.fileName = new Date().toDateString().split(' ').join('-');
-        LogController.errorFile = join(__dirname, `../../../logs/${LogController.fileName}-Errors.md`);
-        LogController.infoFile = join(__dirname, `../../../logs/${LogController.fileName}-Info.md`);
+        _fileName.set(this, new Date().toDateString().split(' ').join('-'));
+        _errorFile.set(this, join(__dirname, `../../../logs/${_fileName}-Errors.md`));
+        _infoFile.set(this, join(__dirname, `../../../logs/${_fileName}-Info.md`));
     }
     static write(file, message) {
         fs.appendFile(file, message, (err) => {
@@ -15,10 +23,10 @@ class LogController {
         });
     }
     static error(message) {
-        this.write(this.errorFile, message);
+        this.write(_errorFile.get(this), message);
     }
     static info(message) {
-        this.write(this.infoFile, message);
+        this.write(_infoFile.get(this), message);
     }
 }
 module.exports = LogController;
