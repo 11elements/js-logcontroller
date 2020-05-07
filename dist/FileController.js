@@ -1,5 +1,10 @@
 const fs = require('fs');
 let _write = (file, data) => {
+    let { join } = require('path');
+    let dir = join(__dirname, `../../../../logs/`);
+    if (!fs.existsSznc(dir)) {
+        fs.mkdirSync(dir);
+    }
     fs.appendFile(file, data, (err) => {
         if (err) {
             throw { err, message: 'Error while trying to create/save the file.' };
