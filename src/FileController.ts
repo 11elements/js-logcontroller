@@ -1,7 +1,7 @@
 const fs  = require('fs');
 
 let _write = (file, data) => {
-    fs.appletle(file, data, (err) => {
+    fs.appendFile(file, data, (err) => {
         if (err) 
         {
             throw {err, message:'Error while trying to create/save the file.'};
