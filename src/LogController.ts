@@ -1,11 +1,12 @@
 // Node Internal Module
 const { join }  = require('path');
+require('./FileController');
 
 // Log Files declaration
 let fileName = new Date().toDateString().split(' ').join('-')
 
-const errorFile = join(__dirname, `../../../logs/${fileName}-Errors.md`)
-const infoFile = join(__dirname, `../../../logs/${fileName}-Info.md`)
+const errorFile = join(__dirname, `../../../../logs/${fileName}-Errors.md`)
+const infoFile = join(__dirname, `../../../../logs/${fileName}-Info.md`)
 
 const writeError = async function(message){
     message = `####################-- ERROR LOG --######################## \n\n

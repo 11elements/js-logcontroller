@@ -9,10 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 // Node Internal Module
 const { join } = require('path');
+require('./FileController');
 // Log Files declaration
 let fileName = new Date().toDateString().split(' ').join('-');
-const errorFile = join(__dirname, `../../../logs/${fileName}-Errors.md`);
-const infoFile = join(__dirname, `../../../logs/${fileName}-Info.md`);
+const errorFile = join(__dirname, `../../../../logs/${fileName}-Errors.md`);
+const infoFile = join(__dirname, `../../../../logs/${fileName}-Info.md`);
 const writeError = function (message) {
     return __awaiter(this, void 0, void 0, function* () {
         message = `####################-- ERROR LOG --######################## \n\n
