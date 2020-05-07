@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 // Node Internal Module
 const { join } = require('path');
-require('./FileController');
+const { write } = require('./FileController');
 // Log Files declaration
 let fileName = new Date().toDateString().split(' ').join('-');
 const errorFile = join(__dirname, `../../../../logs/${fileName}-Errors.md`);

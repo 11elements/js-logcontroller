@@ -1,6 +1,6 @@
 // Node Internal Module
 const { join }  = require('path');
-require('./FileController');
+const { write } = require('./FileController');
 
 // Log Files declaration
 let fileName = new Date().toDateString().split(' ').join('-')
