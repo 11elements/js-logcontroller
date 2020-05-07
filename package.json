@@ -1,0 +1,31 @@
+{
+  "name": "@11elements/js-logcontroller",
+  "version": "1.0.0",
+  "description": "Create log files for javascript or nodejs projects",
+  "main": "./dist/index.js",
+  "scripts": {
+    "start": "tsc && node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/11elements/js-logcontroller.git"
+  },
+  "keywords": [
+    "LogController"
+  ],
+  "author": "Ewerton Tiago Azevedo <ewerton.azevedo@live.co.uk>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/11elements/js-logcontroller/issues"
+  },
+  "homepage": "https://github.com/11elements/js-logcontroller#readme",
+  "dependencies": {
+    "@types/node": "^13.13.5",
+    "tslint": "^6.1.2",
+    "typescript": "^3.8.3"
+  }
+}
