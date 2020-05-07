@@ -2,7 +2,7 @@ const fs = require('fs');
 let _write = (file, data) => {
     let { join } = require('path');
     let dir = join(__dirname, `../../../../logs/`);
-    if (!fs.existsSznc(dir)) {
+    if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir);
     }
     fs.appendFile(file, data, (err) => {
