@@ -3,12 +3,23 @@ const { join }  = require('path');
 const { write } = require('./FileController');
 
 // Log Files declaration
-let fileName = new Date().toDateString().split(' ').join('-')
+const checkDate = async (action:string) =>{
+    try{
+        let fileName = new Date().toDateString().split(' ').join('-');
 
-const errorFile = join(__dirname, `../../../../logs/${fileName}-Errors.md`)
-const infoFile = join(__dirname, `../../../../logs/${fileName}-Info.md`)
+        if(action==="error"){
+            return join(__dirname, `../../../../logs/${fileName}-Errors.md`);
+        }
+        return join(__dirname, `../../../../logs/${fileName}-Info.md`);
+    }catch(error){
+        throw error;
+    }
+   
+}
 
-const writeError = async function(message){
+
+const writeError = async function(message:string, action:string){
+    const errorFile = await checkDate(action);
     message = `####################-- ERROR LOG --######################## \n\n
                        ${message} \nlog created on: ${new Date()} 
                \n\n####################-- END ERROR LOG --#################### \n`
@@ -16,7 +27,8 @@ const writeError = async function(message){
     return true;
 }
 
-const writeInfo = async (message) => {
+const writeInfo = async (message:string, action:string) => {
+    const infoFile = await checkDate(action);
     message = `####################-- INFO LOG --######################## \n\n
                       ${message} \nlog created on: ${new Date()} 
                 \n\n####################-- END INFO LOG --#################### \n`
@@ -25,8 +37,8 @@ const writeInfo = async (message) => {
 }
 
 const LogController = {
-    error: (message) => writeError(message),
-    info:  (message) => writeInfo(message),
+    error: (message:string) => writeError(message, "error"),
+    info:  (message:string) => writeInfo(message, "info"),
 }
 
 module.exports = LogController;

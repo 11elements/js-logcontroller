@@ -11,11 +11,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 const { join } = require('path');
 const { write } = require('./FileController');
 // Log Files declaration
-let fileName = new Date().toDateString().split(' ').join('-');
-const errorFile = join(__dirname, `../../../../logs/${fileName}-Errors.md`);
-const infoFile = join(__dirname, `../../../../logs/${fileName}-Info.md`);
-const writeError = function (message) {
+const checkDate = (action) => __awaiter(this, void 0, void 0, function* () {
+    try {
+        let fileName = new Date().toDateString().split(' ').join('-');
+        if (action === "error") {
+            return join(__dirname, `../../../../logs/${fileName}-Errors.md`);
+        }
+        return join(__dirname, `../../../../logs/${fileName}-Info.md`);
+    }
+    catch (error) {
+        throw error;
+    }
+});
+const writeError = function (message, action) {
     return __awaiter(this, void 0, void 0, function* () {
+        const errorFile = yield checkDate(action);
         message = `####################-- ERROR LOG --######################## \n\n
                        ${message} \nlog created on: ${new Date()} 
                \n\n####################-- END ERROR LOG --#################### \n`;
@@ -23,7 +33,8 @@ const writeError = function (message) {
         return true;
     });
 };
-const writeInfo = (message) => __awaiter(this, void 0, void 0, function* () {
+const writeInfo = (message, action) => __awaiter(this, void 0, void 0, function* () {
+    const infoFile = yield checkDate(action);
     message = `####################-- INFO LOG --######################## \n\n
                       ${message} \nlog created on: ${new Date()} 
                 \n\n####################-- END INFO LOG --#################### \n`;
@@ -31,8 +42,8 @@ const writeInfo = (message) => __awaiter(this, void 0, void 0, function* () {
     return true;
 });
 const LogController = {
-    error: (message) => writeError(message),
-    info: (message) => writeInfo(message),
+    error: (message) => writeError(message, "error"),
+    info: (message) => writeInfo(message, "info"),
 };
 module.exports = LogController;
 //# sourceMappingURL=LogController.js.map
