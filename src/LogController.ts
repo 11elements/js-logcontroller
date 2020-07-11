@@ -1,6 +1,9 @@
 // Node Internal Module
 const { join }  = require('path');
 const { write } = require('./FileController');
+const { EventEmitter } = require('events');
+
+const emitter = new EventEmitter();
 
 // Log Files declaration
 const checkDate = async (action:string) =>{
@@ -37,8 +40,8 @@ const writeInfo = async (message:string, action:string) => {
 }
 
 const LogController = {
-    error: (message:string) => writeError(message, "error"),
-    info:  (message:string) => writeInfo(message, "info"),
+    error: (message:string) => emitter.on('error', writeError(message, "error")),
+    info:  (message:string) => emitter.on('success', writeInfo(message, "info")),
 }
 
 module.exports = LogController;

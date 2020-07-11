@@ -10,6 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 // Node Internal Module
 const { join } = require('path');
 const { write } = require('./FileController');
+const { EventEmitter } = require('events');
+const emitter = new EventEmitter();
 // Log Files declaration
 const checkDate = (action) => __awaiter(this, void 0, void 0, function* () {
     try {
@@ -42,8 +44,8 @@ const writeInfo = (message, action) => __awaiter(this, void 0, void 0, function*
     return true;
 });
 const LogController = {
-    error: (message) => writeError(message, "error"),
-    info: (message) => writeInfo(message, "info"),
+    error: (message) => emitter.on('error', writeError(message, "error")),
+    info: (message) => emitter.on('success', writeInfo(message, "info")),
 };
 module.exports = LogController;
 //# sourceMappingURL=LogController.js.map

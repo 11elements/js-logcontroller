@@ -1,6 +1,6 @@
 {
   "name": "@11elements/js-logcontroller",
-  "version": "1.5.5",
+  "version": "1.6.0",
   "description": "Create log files for javascript or nodejs projects",
   "main": "./dist/index.js",
   "scripts": {
