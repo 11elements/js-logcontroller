@@ -9,6 +9,7 @@ let _write = (file, data) => {
         if (err) {
             throw { err, message: 'Error while trying to create/save the file.' };
         }
+        return true;
     });
 };
 const FileController = {

@@ -3,45 +3,53 @@ const { join }  = require('path');
 const { write } = require('./FileController');
 const { EventEmitter } = require('events');
 
-const emitter = new EventEmitter();
+class LogController extends EventEmitter{
 
-// Log Files declaration
-const checkDate = async (action:string) =>{
-    try{
-        let fileName = new Date().toDateString().split(' ').join('-');
+    static getFileName : Promise<string>;
+    static writeError : Promise<Boolean>;
+    static writeInfo : Promise<Boolean>;
 
-        if(action==="error"){
-            return join(__dirname, `../../../../logs/${fileName}-Errors.md`);
-        }
-        return join(__dirname, `../../../../logs/${fileName}-Info.md`);
-    }catch(error){
-        throw error;
+    constructor(){
+        super();
     }
-   
-}
 
+    getFileName = async (action:string) : Promise<string> =>{
+        try{
+            let fileName = new Date().toDateString().split(' ').join('-');
+            return join(__dirname, `../../../../logs/${fileName}-${action}.md`);
+        }catch(error){
+            throw error;
+        }   
+    }
 
-const writeError = async function(message:string, action:string){
-    const errorFile = await checkDate(action);
-    message = `####################-- ERROR LOG --######################## \n\n
-                       ${message} \nlog created on: ${new Date()} 
-               \n\n####################-- END ERROR LOG --#################### \n`
-    write(errorFile, message);
-    return true;
-}
+    writeError = async function(message:string) : Promise<Boolean>{
+        try{
+            let errorFile = await this.getFileName('error');
 
-const writeInfo = async (message:string, action:string) => {
-    const infoFile = await checkDate(action);
-    message = `####################-- INFO LOG --######################## \n\n
-                      ${message} \nlog created on: ${new Date()} 
-                \n\n####################-- END INFO LOG --#################### \n`
-    write(infoFile, message);
-    return true;
-}
+            message = `####################-- ERROR LOG --######################## \n\n
+                            ${message}\n\nlog created on: ${new Date()} 
+                    \n\n####################-- END ERROR LOG --#################### \n`
 
-const LogController = {
-    error: (message:string) => emitter.on('error', writeError(message, "error")),
-    info:  (message:string) => emitter.on('success', writeInfo(message, "info")),
+            return write(errorFile, message);
+
+        }catch(error){
+            throw error;
+        }
+    }
+
+    writeInfo = async function(message:string) : Promise<Boolean>{
+        try{
+            let infoFile = await this.getFileName('info');
+
+            message = `####################-- INFO LOG --######################## \n\n
+                            ${message}\n\nlog created on: ${new Date()} 
+                    \n\n####################-- END INFO LOG --#################### \n`
+    
+            return write(infoFile, message);
+        }catch(error){
+            throw error;
+        }
+    }
 }
 
 module.exports = LogController;

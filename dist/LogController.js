@@ -11,41 +11,47 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 const { join } = require('path');
 const { write } = require('./FileController');
 const { EventEmitter } = require('events');
-const emitter = new EventEmitter();
-// Log Files declaration
-const checkDate = (action) => __awaiter(this, void 0, void 0, function* () {
-    try {
-        let fileName = new Date().toDateString().split(' ').join('-');
-        if (action === "error") {
-            return join(__dirname, `../../../../logs/${fileName}-Errors.md`);
-        }
-        return join(__dirname, `../../../../logs/${fileName}-Info.md`);
+class LogController extends EventEmitter {
+    constructor() {
+        super();
+        this.getFileName = (action) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                let fileName = new Date().toDateString().split(' ').join('-');
+                return join(__dirname, `../../../../logs/${fileName}-${action}.md`);
+            }
+            catch (error) {
+                throw error;
+            }
+        });
+        this.writeError = function (message) {
+            return __awaiter(this, void 0, void 0, function* () {
+                try {
+                    let errorFile = yield this.getFileName('error');
+                    message = `####################-- ERROR LOG --######################## \n\n
+                            ${message}\n\nlog created on: ${new Date()} 
+                    \n\n####################-- END ERROR LOG --#################### \n`;
+                    return write(errorFile, message);
+                }
+                catch (error) {
+                    throw error;
+                }
+            });
+        };
+        this.writeInfo = function (message) {
+            return __awaiter(this, void 0, void 0, function* () {
+                try {
+                    let infoFile = yield this.getFileName('info');
+                    message = `####################-- INFO LOG --######################## \n\n
+                            ${message}\n\nlog created on: ${new Date()} 
+                    \n\n####################-- END INFO LOG --#################### \n`;
+                    return write(infoFile, message);
+                }
+                catch (error) {
+                    throw error;
+                }
+            });
+        };
     }
-    catch (error) {
-        throw error;
-    }
-});
-const writeError = function (message, action) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const errorFile = yield checkDate(action);
-        message = `####################-- ERROR LOG --######################## \n\n
-                       ${message} \nlog created on: ${new Date()} 
-               \n\n####################-- END ERROR LOG --#################### \n`;
-        write(errorFile, message);
-        return true;
-    });
-};
-const writeInfo = (message, action) => __awaiter(this, void 0, void 0, function* () {
-    const infoFile = yield checkDate(action);
-    message = `####################-- INFO LOG --######################## \n\n
-                      ${message} \nlog created on: ${new Date()} 
-                \n\n####################-- END INFO LOG --#################### \n`;
-    write(infoFile, message);
-    return true;
-});
-const LogController = {
-    error: (message) => emitter.on('error', writeError(message, "error")),
-    info: (message) => emitter.on('success', writeInfo(message, "info")),
-};
+}
 module.exports = LogController;
 //# sourceMappingURL=LogController.js.map

@@ -13,6 +13,7 @@ let _write = (file, data) => {
         {
             throw {err, message:'Error while trying to create/save the file.'};
         }
+        return true;
     });
 };
 
