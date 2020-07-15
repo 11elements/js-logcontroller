@@ -34,6 +34,7 @@ class LogController extends EventEmitter {
                     return write(errorFile, message);
                 }
                 catch (error) {
+                    this.emit('failed', false);
                     throw error;
                 }
             });
@@ -49,6 +50,7 @@ class LogController extends EventEmitter {
                     return write(infoFile, message);
                 }
                 catch (error) {
+                    this.emit('failed', false);
                     throw error;
                 }
             });

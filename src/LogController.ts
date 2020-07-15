@@ -32,9 +32,11 @@ class LogController extends EventEmitter{
                     \n### log created on: ${new Date()} 
                     \n# END ERROR LOG\n`
 
+            this.emit('done', true);
             return write(errorFile, message);
 
         }catch(error){
+            this.emit('failed', false);
             throw error;
         }
     }
@@ -49,8 +51,10 @@ class LogController extends EventEmitter{
                     \n### log created on: ${new Date()} 
                     \n# END INFO LOG\n`
     
+            this.emit('done', true);
             return write(infoFile, message);
         }catch(error){
+            this.emit('failed', false);
             throw error;
         }
     }
