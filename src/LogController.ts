@@ -26,9 +26,11 @@ class LogController extends EventEmitter{
         try{
             let errorFile = await this.getFileName('error');
 
-            message = `####################-- ERROR LOG --######################## \n\n
-                            ${message}\n\nlog created on: ${new Date()} 
-                    \n\n####################-- END ERROR LOG --#################### \n`
+            message = JSON.stringify(message);
+
+            message = `\n# ERROR LOG\n### ${message}
+                    \n### log created on: ${new Date()} 
+                    \n# END ERROR LOG\n`
 
             return write(errorFile, message);
 
@@ -38,12 +40,14 @@ class LogController extends EventEmitter{
     }
 
     writeInfo = async function(message:string) : Promise<Boolean>{
-        try{
+        try{  
             let infoFile = await this.getFileName('info');
 
-            message = `####################-- INFO LOG --######################## \n\n
-                            ${message}\n\nlog created on: ${new Date()} 
-                    \n\n####################-- END INFO LOG --#################### \n`
+            message = JSON.stringify(message);
+
+            message = `\n# INFO LOG\n\n${message}
+                    \n### log created on: ${new Date()} 
+                    \n# END INFO LOG\n`
     
             return write(infoFile, message);
         }catch(error){

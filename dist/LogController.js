@@ -27,9 +27,10 @@ class LogController extends EventEmitter {
             return __awaiter(this, void 0, void 0, function* () {
                 try {
                     let errorFile = yield this.getFileName('error');
-                    message = `####################-- ERROR LOG --######################## \n\n
-                            ${message}\n\nlog created on: ${new Date()} 
-                    \n\n####################-- END ERROR LOG --#################### \n`;
+                    message = JSON.stringify(message);
+                    message = `\n# ERROR LOG\n### ${message}
+                    \n### log created on: ${new Date()} 
+                    \n# END ERROR LOG\n`;
                     return write(errorFile, message);
                 }
                 catch (error) {
@@ -41,9 +42,10 @@ class LogController extends EventEmitter {
             return __awaiter(this, void 0, void 0, function* () {
                 try {
                     let infoFile = yield this.getFileName('info');
-                    message = `####################-- INFO LOG --######################## \n\n
-                            ${message}\n\nlog created on: ${new Date()} 
-                    \n\n####################-- END INFO LOG --#################### \n`;
+                    message = JSON.stringify(message);
+                    message = `\n# INFO LOG\n\n${message}
+                    \n### log created on: ${new Date()} 
+                    \n# END INFO LOG\n`;
                     return write(infoFile, message);
                 }
                 catch (error) {
